@@ -9,18 +9,42 @@ import Achievements from "@/components/home/Achievments";
 import MailForm from "@/components/home/MailForm";
 import Footer from "@/components/shared/Footer";
 
+export async function generateMetadata() {
+  return {
+    title: "HOME | SIJABRIGHT",
+    description:
+      "Website resmi SIJA BRIGHT - Kelas SIJA B Angkatan 27 STEMBAYO",
+    openGraph: {
+      images: [
+        {
+          url: "/assets/images/hero-og.jpg",
+          width: 1200,
+          height: 630,
+          alt: "SIJA BRIGHT Home",
+        },
+      ],
+    },
+  };
+}
+
 export default function Home() {
   return (
     <main className="relative">
       <Nav />
 
-      <section id="home" className="min-h-[90vh] md:min-h-screen flex items-center pt-20 mt-4 md:mt-0 md:pt-0">
+      <section
+        id="home"
+        className="min-h-[90vh] md:min-h-screen flex items-center pt-20 mt-4 md:mt-0 md:pt-0"
+      >
         <div className="w-full">
           <Hero />
         </div>
       </section>
 
-      <section id="about" className="py-16 md:py-24 md:min-h-screen flex items-center">
+      <section
+        id="about"
+        className="py-16 md:py-24 md:min-h-screen flex items-center"
+      >
         <About />
       </section>
 
