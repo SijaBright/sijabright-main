@@ -7,6 +7,7 @@ import Projects from "@/components/home/Projects";
 import AllMember from "@/components/home/AllMember";
 import Achievements from "@/components/home/Achievments";
 import MailForm from "@/components/home/MailForm";
+import Footer from "@/components/shared/Footer";
 
 export default function Home() {
   return (
@@ -45,6 +46,10 @@ export default function Home() {
 
       <section id="contact" className="min-h-screen flex items-center">
         <MailForm />
+      </section>
+
+      <section id="footer" className="flex items-center">
+        <Footer />
       </section>
     </main>
   );

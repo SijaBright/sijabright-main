@@ -176,8 +176,8 @@ body {
 @media (max-width: 640px) {
   button,
   a {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: 34px;
+    min-width: 34px;
   }
 }
 

@@ -55,7 +55,6 @@ export default function Nav() {
               className="mr-3"
               priority
             />
-            <span className="text-white font-medium text-lg hidden sm:block">SIJA BRIGHT</span>
           </Link>
         </div>
 
