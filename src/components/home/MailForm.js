@@ -50,15 +50,15 @@ export default function MailForm() {
       </div>
 
       <div className="w-[95%] max-w-7xl mx-auto px-4 md:px-8">
-        <div className="bg-[#271e5f] rounded-3xl shadow-xl p-6 md:p-10">
+        <div className="bg-[#271e5f] rounded-3xl shadow-xl p-6 md:p-10 border-2 border-[#ffffff]">
           <div className="flex flex-col md:flex-row gap-10">
             <div className="md:w-2/5 space-y-8">
               <div>
                 <h3 className="text-2xl font-poppins font-semibold text-white mb-4">
                   GET IN TOUCH WITH US
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
-                  <span className="font-bold">Ada saran atau pertanyaan?</span>
+                <p className="font-bold text-[#ffffff] leading-relaxed">Ada saran atau pertanyaan?</p>
+                <p className="text-[#ffffff] leading-relaxed">
                   Jangan ragu untuk menghubungi kami! Kami selalu terbuka untuk
                   diskusi, kolaborasi, atau sekadar berbagi ide keren seputar
                   teknologi dan komunitas kami.
@@ -66,37 +66,32 @@ export default function MailForm() {
               </div>
 
               <div className="space-y-4 pt-4">
-                <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 rounded-full bg-[#5e4df5]/30 flex items-center justify-center">
-                    <Phone className="text-[#00c7fe] h-5 w-5" />
+                    <Mail className="text-[#ffffff] h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white">+62 123-4567-8910</p>
+                    <p className="text-white font-black text-sm">Email</p>
+                    <p className="text-white font-bold">contact@sijabright.com</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-[#5e4df5]/30 flex items-center justify-center">
+                    <Phone className="text-[#ffffff] h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-white text-sm font-black">Phone</p>
+                    <p className="text-white font-bold">+62 123-4567-8910</p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-[#5e4df5]/30 flex items-center justify-center">
-                    <Mail className="text-[#00c7fe] h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white">contact@sijabright.com</p>
-                  </div>
-                </div>
               </div>
             </div>
 
             <div className="md:w-3/5">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
-                    Your Name
-                  </label>
                   <input
                     type="text"
                     id="name"
@@ -104,18 +99,12 @@ export default function MailForm() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full bg-[#211a4e] border border-[#5e4df5]/50 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00c7fe] focus:border-transparent transition"
+                    className="w-full bg-[#211a4e] border-2 border-[#b6b9c8] rounded-3xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0ebff6] focus:border-transparent transition"
                     placeholder="Enter your name"
                   />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
-                    Your Email
-                  </label>
                   <input
                     type="email"
                     id="email"
@@ -123,18 +112,12 @@ export default function MailForm() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full bg-[#211a4e] border border-[#5e4df5]/50 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00c7fe] focus:border-transparent transition"
-                    placeholder="Enter your email"
+                    className="w-full bg-[#211a4e] border-2 border-[#b6b9c8] rounded-3xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0ebff6] focus:border-transparent transition"
+                    placeholder="Enter your email address"
                   />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
-                    Your Message
-                  </label>
                   <textarea
                     id="message"
                     name="message"
@@ -142,8 +125,8 @@ export default function MailForm() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full bg-[#211a4e] border border-[#5e4df5]/50 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00c7fe] focus:border-transparent transition resize-none"
-                    placeholder="What would you like to tell us?"
+                    className="w-full bg-[#211a4e] border-2 border-[#b6b9c8] rounded-3xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0ebff6] focus:border-transparent transition resize-none"
+                    placeholder="Enter your message"
                   ></textarea>
                 </div>
 
@@ -163,7 +146,7 @@ export default function MailForm() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#5e4df5] hover:bg-[#4c3fd6] text-white font-medium py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center"
+                    className="w-full bg-[#0aa6e1] border-2 border-[#0ebff6] hover:bg-[#4882ee] text-white font-medium py-3 px-6 rounded-3xl transition duration-300 flex items-center justify-center"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center">
@@ -172,8 +155,7 @@ export default function MailForm() {
                       </div>
                     ) : (
                       <div className="flex items-center">
-                        <Send className="h-4 w-4 mr-2" />
-                        <span>Send Message</span>
+                        <span className="font-poppins font-black text-[#ffffff] tracking-wide">SUBMIT</span>
                       </div>
                     )}
                   </button>
