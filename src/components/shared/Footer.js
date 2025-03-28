@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useFooterNavigation } from "@/hooks/useFooterNavigation";
 import {
   Mail,
   Phone,
@@ -19,21 +20,36 @@ import {
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribeStatus, setSubscribeStatus] = useState("");
+  const { navigateToSection, isHomePage } = useFooterNavigation();
 
   const handleSubscribe = (e) => {
     e.preventDefault();
     setSubscribeStatus("success");
-        setTimeout(() => {
+    setTimeout(() => {
       setEmail("");
       setSubscribeStatus("");
     }, 3000);
   };
 
+  
+  const mainLinks = [
+    { label: "Tentang Kami", href: "about" },
+    { label: "Proyek Kelas", href: "projects" },
+    { label: "Galeri Kenangan", href: "gallery" },
+  ];
+
+  
+  const otherLinks = [
+    { label: "Blog & Tutorial", href: "/blog" },
+    { label: "Community & Forum", href: "/community" },
+    { label: "Toolkit & Resources", href: "/toolkit" },
+  ];
+
   return (
     <footer className="w-full bg-[#020106] font-poppins">
       <div className="w-[95%] max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
-                    <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <Link href="/" className="inline-block">
               <div className="flex items-center gap-3">
                 <Image
@@ -63,17 +79,24 @@ export default function Footer() {
           </div>
           <div className="mt-8 sm:mt-16 md:mt-24">
             <ul className="space-y-2">
-              {[
-                { label: "Tentang Kami", href: "about" },
-                { label: "Proyek Kelas", href: "projects" },
-                { label: "Galeri Kenangan", href: "gallery" },
-                { label: "Blog & Tutorial", href: "blog" },
-                { label: "Community & Forum", href: "community" },
-                { label: "Toolkit & Resources", href: "resources" },
-              ].map(({ label, href }) => (
+              
+              {mainLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <button
+                    onClick={() => navigateToSection(href)}
+                    className="text-[#ffffff] hover:text-[#00c7fe] transition-colors duration-200 text-sm flex items-center group"
+                  >
+                    <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    {label}
+                  </button>
+                </li>
+              ))}
+
+              
+              {otherLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link
-                    href={`/#${href}`}
+                    href={href}
                     className="text-[#ffffff] hover:text-[#00c7fe] transition-colors duration-200 text-sm flex items-center group"
                   >
                     <ArrowRight className="w-3 h-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -84,7 +107,7 @@ export default function Footer() {
             </ul>
           </div>
 
-                    <div className="mt-8 sm:mt-16 md:mt-24">
+          <div className="mt-8 sm:mt-16 md:mt-24">
             <ul className="space-y-4">
               <li className="flex items-center">
                 <Phone className="w-5 h-5 text-[#ffffff] mr-3 flex-shrink-0" />
@@ -101,7 +124,7 @@ export default function Footer() {
               <li className="flex items-start">
                 <MapPin className="w-5 h-5 text-[#ffffff] mt-1 mr-3 flex-shrink-0" />
                 <span className="text-[#ffffff] text-sm">
-                  SMKN 1 Jakarta, Jalan Budi Utomo No. 7, Jakarta Pusat
+                  Sleman, DIY
                 </span>
               </li>
             </ul>
@@ -137,7 +160,7 @@ export default function Footer() {
               )}
             </form>
 
-                        <div className="mt-6">
+            <div className="mt-6">
               <p className="text-[#ffffff] font-bold text-sm mb-3">FOLLOW US</p>
               <div className="flex space-x-4">
                 {[
@@ -162,21 +185,21 @@ export default function Footer() {
         </div>
       </div>
 
-            <div className="w-full bg-[#05c5fa] py-4 text-center">
+      <div className="w-full bg-[#05c5fa] py-4 text-center">
         <div className="w-[95%] flex flex-col sm:flex-row sm:items-center sm:justify-between max-w-7xl mx-auto px-4 md:px-8 gap-3 sm:gap-0">
-          <p className="text-gray-500 text-sm">
+          <p className="text-[#4a4a4d] text-sm">
             © {new Date().getFullYear()} All rights reserved. | by SIJA BRIGHT
           </p>
           <div className="flex flex-row gap-4 justify-center sm:justify-end">
-            <Link href="/terms" className="text-gray-500 text-sm">
+            <Link href="/terms" className="text-[#4a4a4d] text-sm">
               Terms
             </Link>
-            <Link href="/privacy" className="text-gray-500 text-sm">
+            <Link href="/privacy" className="text-[#4a4a4d] text-sm">
               Privacy
             </Link>
             <Link
               href="/complience"
-              className="text-gray-500 text-sm mr-0 sm:mr-4"
+              className="text-[#4a4a4d] text-sm mr-0 sm:mr-4"
             >
               Complience
             </Link>

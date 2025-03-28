@@ -9,21 +9,55 @@ export function useNavigation() {
 
   const homeSections = useMemo(() => ["home", "about", "gallery", "blog"], []);
 
-  const otherPages = [
-    { name: "Projects", href: "/projects" },
-    { name: "Services", href: "/services" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const allPageSections = useMemo(() => {
+    return {
+      "/": [
+        { name: "Home", section: "home" },
+        { name: "About", section: "about" },
+        { name: "Gallery", section: "gallery" },
+        { name: "Blog", section: "blog" },
+        { name: "Projects", section: "projects" },
+        { name: "Achievements", section: "achievements" },
+        { name: "Members", section: "members" },
+        { name: "Others", section: "others" },
+        { name: "Contact", section: "contact" },
+      ],
+
+      "/games": [],
+      "/links": [],
+      "/community": [],
+      "/toolkit": [],
+    };
+  }, []);
+
+  const currentPageSections = useMemo(() => {
+    return allPageSections[pathname] || [];
+  }, [pathname, allPageSections]);
+
+  const MAX_VISIBLE_LINKS = 4;
+
+  const visibleSections = useMemo(() => {
+    if (currentPageSections.length <= MAX_VISIBLE_LINKS) {
+      return { mainSections: currentPageSections, dropdownSections: [] };
+    } else {
+      return {
+        mainSections: currentPageSections.slice(0, MAX_VISIBLE_LINKS),
+        dropdownSections: currentPageSections.slice(MAX_VISIBLE_LINKS),
+      };
+    }
+  }, [currentPageSections]);
 
   const isHomePage = pathname === "/";
 
   useEffect(() => {
-    if (!isHomePage) return;
+    if (!isHomePage && pathname !== "/projects") return;
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
 
-      const sections = homeSections
+      const sectionIds = currentPageSections.map((item) => item.section);
+
+      const sections = sectionIds
         .map((id) => document.getElementById(id))
         .filter(Boolean);
 
@@ -39,14 +73,16 @@ export function useNavigation() {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     handleScroll();
-
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isHomePage, homeSections]);
+  }, [isHomePage, pathname, currentPageSections]);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const toggleDropdown = (value) => {
+    if (value !== undefined) {
+      setIsDropdownOpen(value);
+    } else {
+      setIsDropdownOpen(!isDropdownOpen);
+    }
   };
 
   const scrollToSection = (sectionId) => {
@@ -66,7 +102,8 @@ export function useNavigation() {
     isScrolled,
     isHomePage,
     homeSections,
-    otherPages,
+    visibleSections,
+    currentPageSections,
     pathname,
     toggleDropdown,
     scrollToSection,
