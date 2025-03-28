@@ -1,6 +1,6 @@
 # SIJA BRIGHT - Official Website
 
-The official website for the SIJA B Class, Batch 27 of SMK Negeri 2 Depok (STEMBAYO).
+The official website for the SIJA B Class, Batch 36 of SMK Negeri 2 Depok (STEMBAYO).
 
 ![SIJA BRIGHT Logo](/public/assets/images/sijabright-white.webp)
 
