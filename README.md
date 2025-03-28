@@ -1,8 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SIJA BRIGHT - Official Website
 
-## Getting Started
+The official website for the SIJA B Class, Batch 27 of SMK Negeri 2 Depok (STEMBAYO).
 
-First, run the development server:
+![SIJA BRIGHT Logo](/public/assets/images/sijabright-white.webp)
+
+## 🚀 Overview
+
+SIJA BRIGHT is a modern, responsive website built with Next.js that showcases the projects, achievements, and members of the SIJA B Class. The site features interactive 3D elements, smooth animations, and a comprehensive content structure designed to highlight student work and community activities.
+
+## ✨ Features
+
+- **Interactive 3D Hero Section** - Engaging card carousel with interactive animations built using Three.js
+- **Responsive Design** - Fully responsive layout optimized for all devices
+- **Multi-Section Homepage** - Dynamic sections including About, Gallery, Blog, Projects, Achievements, Members, and more
+- **Custom Navigation** - Smooth scrolling with active section highlighting
+- **Section History** - Preserves browsing state when returning from other pages
+- **Subpages** - Dedicated pages for Community, Games, Links, and Toolkit
+- **Contact Form** - User-friendly contact interface with feedback
+- **Custom Scrollbar** - Enhanced scrolling experience with themed scrollbar
+- **SEO Optimized** - Comprehensive metadata configuration for better search engine visibility
+
+## 🛠️ Technologies
+
+- **Frontend Framework**: [Next.js 15](https://nextjs.org/)
+- **React**: [React 19](https://react.dev/)
+- **3D Rendering**: [Three.js](https://threejs.org/)
+- **Animations**: [GSAP](https://greensock.com/gsap/) & [@tweenjs/tween.js](https://github.com/tweenjs/tween.js/)
+- **UI Components**: [Lucide React](https://lucide.dev/guide/packages/lucide-react)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Font**: [Geist](https://vercel.com/font) & [Poppins](https://fonts.google.com/specimen/Poppins)
+
+## 🚦 Getting Started
+
+First, clone the repository:
+
+```bash
+git clone https://github.com/your-username/sijabright-main.git
+cd sijabright-main
+```
+
+Install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -16,21 +65,70 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🧩 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/            # Next.js app directory with page components
+├── components/     # Reusable UI components
+│   ├── home/       # Home page specific components
+│   └── shared/     # Shared components (Nav, Footer, etc.)
+├── hooks/          # Custom React hooks
+└── styles/         # Global styles
+public/
+├── assets/         # Static assets (images, etc.)
+└── favicon.ico     # Site favicon
+```
 
-## Learn More
+## 📝 Available Pages
 
-To learn more about Next.js, take a look at the following resources:
+- **Home** (`/`) - Main landing page with all sections
+- **Community** (`/community`) - Community forums and discussion boards
+- **Games** (`/games`) - Fun games created by team members
+- **Links** (`/links`) - Collection of helpful resources
+- **Toolkit** (`/toolkit`) - Essential tools and resources for development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📌 Version History
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### v0.1.3
 
-## Deploy on Vercel
+- Add custom scrollbar styles for improved aesthetics and usability
+- Implement dynamic page content and section history management; add metadata generation
+- Add Community, Games, Links, Toolkit pages and BackToHomeButton component
+- Add useFooterNavigation hook and enhance Footer component for improved navigation
+- Refactor Others component to display dynamic links with images and descriptions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### v0.1.2
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Update Footer button size for improved accessibility and responsiveness
+- Add new favicon and app icons; update metadata for SEO and social sharing
+- Add Footer component and integrate it into the Home page layout
+
+### v0.1.1
+
+- Enhance global styles with Poppins font, new animations, and improved responsive design
+- Add custom hook useNavigation for managing navigation state and scroll behavior
+- Add new components: Footer, Description, Blog, Projects, Gallery, and AllMember for enhanced home page layout
+- Add Poppins font and restructure Home page layout with new sections
+- Add new image assets: sijabright-white.webp and update favicon.ico
+- Add new dependencies: @tweenjs/tween.js, gsap, lucide-react, and three
+
+### v0.1.0
+
+- Add global styles and update layout import path
+- Initial commit from Create Next App
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👥 Contributors
+
+- SIJA B Class - Batch 36 Students
+
+## 📞 Contact
+
+For any inquiries or suggestions, please contact us at:
+
+- Email: abim@rejaka.me
+- Phone: +62 821-4188-4664
