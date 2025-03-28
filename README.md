@@ -35,7 +35,7 @@ SIJA BRIGHT is a modern, responsive website built with Next.js that showcases th
 First, clone the repository:
 
 ```bash
-git clone https://github.com/your-username/sijabright-main.git
+git clone https://github.com/SijaBright/sijabright-main.git
 cd sijabright-main
 ```
 
