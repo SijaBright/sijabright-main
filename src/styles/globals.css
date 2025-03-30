@@ -236,3 +236,50 @@ html {
     border-width: 1px;
   }
 }
+
+@keyframes gradient-xy {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.animate-gradient-xy {
+  background-size: 300% 300%;
+  animation: gradient-xy 15s ease infinite;
+}
+.role-border {
+  position: relative;
+  z-index: 10;
+  border-radius: 1rem;
+}
+
+html.overflow-hidden,
+body.overflow-hidden {
+  overflow: hidden !important;
+  position: relative !important;
+  height: 100% !important;
+  touch-action: none !important;
+  -ms-touch-action: none !important;
+  overscroll-behavior: none !important;
+  padding-right: var(--scrollbar-width, 17px) !important;
+}
+
+@media (max-width: 768px) {
+  html.overflow-hidden,
+  body.overflow-hidden {
+    position: fixed !important;
+    width: 100% !important;
+  }
+}
