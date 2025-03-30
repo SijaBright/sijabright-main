@@ -90,6 +90,14 @@ public/
 
 ## 📌 Version History
 
+### v0.1.4
+
+- Add carousel component for improved image and content presentation
+- Implement modal component for detailed member information display
+- Add comprehensive data structure for all members section
+- Enhance member profiles with additional details and interactive elements
+- Improve user experience with smooth transitions between member information
+
 ### v0.1.3
 
 - Add custom scrollbar styles for improved aesthetics and usability
