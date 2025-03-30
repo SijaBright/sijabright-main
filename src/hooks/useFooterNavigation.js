@@ -7,10 +7,6 @@ export function useFooterNavigation() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  /**
-   * Navigate to a section on the page or redirect to homepage with smooth scroll
-   * @param {string} sectionId - The ID of the section to scroll to
-   */
   const navigateToSection = useCallback(
     (sectionId) => {
       if (isHomePage) {
@@ -22,10 +18,6 @@ export function useFooterNavigation() {
     [isHomePage]
   );
 
-  /**
-   * Scroll to a section by ID with smooth animation
-   * @param {string} sectionId - The ID of the section to scroll to
-   */
   const scrollToSection = useCallback((sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
