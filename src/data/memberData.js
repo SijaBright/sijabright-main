@@ -168,6 +168,7 @@ export const memberData = [
     quotes: "Embrace the darkness.",
     birthDay: "17 Juni 2007",
     website: "rejaka.me",
+    instagram: "@rejakasusanto",
   },
   {
     id: 21,

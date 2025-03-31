@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { XCircle, Globe, Calendar, Quote } from "lucide-react";
+import { XCircle, Globe, Calendar, Quote, Instagram } from "lucide-react";
 import { useEffect } from "react";
 
 export default function MemberModal({ member, isOpen, onClose }) {
@@ -160,6 +160,42 @@ export default function MemberModal({ member, isOpen, onClose }) {
                           </p>
                         </div>
                       </div>
+
+                      {member.instagram && (
+                        <div className="flex items-start space-x-3">
+                          <Instagram className="text-white/70 h-5 w-5 mt-1" />
+                          <div>
+                            <p className="text-white/50 text-sm font-poppins">
+                              Instagram
+                            </p>
+                            <a
+                              href={`https://instagram.com/${member.instagram.replace(
+                                "@",
+                                ""
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`${roleColors.text} hover:underline flex items-center gap-1 font-poppins`}
+                            >
+                              {member.instagram}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-3 w-3 opacity-70"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                              </svg>
+                            </a>
+                          </div>
+                        </div>
+                      )}
 
                       {member.website && (
                         <div className="flex items-start space-x-3">
