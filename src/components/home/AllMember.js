@@ -7,6 +7,7 @@ import { memberData } from "@/data/memberData";
 import MemberModal from "@/components/modals/members/memberModal";
 
 export default function AllMember() {
+  const [isMounted, setIsMounted] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -102,6 +103,10 @@ export default function AllMember() {
   };
 
   const getVisibleRange = () => {
+    if (typeof window === "undefined") {
+      return { start: 0, end: 14 };
+    }
+
     const isMobile = getIsMobile();
     const visibleCount = isMobile ? 5 : window.innerWidth < 768 ? 9 : 15;
     const halfVisible = Math.floor(visibleCount / 2);
@@ -123,12 +128,25 @@ export default function AllMember() {
   };
 
   useEffect(() => {
-    const handleResize = () => {
+    setIsMounted(true);
+
+    if (typeof window !== "undefined") {
       setWidth(window.innerWidth);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window !== "undefined") {
+        setWidth(window.innerWidth);
+      }
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+    return undefined;
   }, []);
 
   const { start, end } = getVisibleRange();
@@ -163,339 +181,354 @@ export default function AllMember() {
             <span className="animate-pulse inline-block ml-1">👆</span>
           </p>
 
-          <div
-            className="relative w-full py-1 sm:py-2 md:py-4 overflow-hidden"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            <motion.button
-              onClick={handlePrev}
-              className="absolute cursor-pointer left-2 sm:left-2 md:left-10 top-1/2 -translate-y-1/2 z-50 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-full p-3 sm:p-2 md:p-3 text-white hover:text-[#00c7fe] transition-all transform hover:-translate-x-1 active:scale-95 focus:outline-none border-2 border-[#00c7fe]/30 hover:border-[#00c7fe]"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ opacity: 0.7 }}
-              animate={{ opacity: 1 }}
+          {isMounted ? (
+            <div
+              className="relative w-full py-1 sm:py-2 md:py-4 overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
             >
-              <ChevronLeft size={20} className="sm:hidden" />
-              <ChevronLeft size={20} className="hidden sm:block md:hidden" />
-              <ChevronLeft size={28} className="hidden md:block" />
-            </motion.button>
-
-            <motion.button
-              onClick={handleNext}
-              className="absolute cursor-pointer right-2 sm:right-2 md:right-10 top-1/2 -translate-y-1/2 z-50 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-full p-3 sm:p-2 md:p-3 text-white hover:text-[#00c7fe] transition-all transform hover:translate-x-1 active:scale-95 focus:outline-none border-2 border-[#00c7fe]/30 hover:border-[#00c7fe]"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ opacity: 0.7 }}
-              animate={{ opacity: 1 }}
-            >
-              <ChevronRight size={20} className="sm:hidden" />
-              <ChevronRight size={20} className="hidden sm:block md:hidden" />
-              <ChevronRight size={28} className="hidden md:block" />
-            </motion.button>
-
-            <div className="flex justify-center items-center min-h-[360px] sm:min-h-[320px] md:min-h-[400px] perspective">
-              <motion.div
-                ref={carouselRef}
-                className="flex justify-center items-center"
-                animate={{ x: direction * -20 }}
-                transition={{ duration: 0.1 }}
-                onAnimationComplete={() => setDirection(0)}
+              <motion.button
+                onClick={handlePrev}
+                className="absolute cursor-pointer left-2 sm:left-2 md:left-10 top-1/2 -translate-y-1/2 z-50 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-full p-3 sm:p-2 md:p-3 text-white hover:text-[#00c7fe] transition-all transform hover:-translate-x-1 active:scale-95 focus:outline-none border-2 border-[#00c7fe]/30 hover:border-[#00c7fe]"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
               >
-                <AnimatePresence mode="wait">
-                  <div
-                    key={activeIndex}
-                    className="flex gap-0.5 justify-center items-center"
-                  >
-                    {getDisplayedItems().map((member, i) => (
-                      <motion.div
-                        key={`${member.id}-${i}`}
-                        className={`flex flex-col items-center justify-center relative ${
-                          member.isActive ? "z-20" : "z-10"
-                        }`}
-                        initial={{
-                          x: direction * 80,
-                          opacity: 0.5,
-                          scale: 0.8,
-                        }}
-                        animate={{
-                          scale: member.isActive
-                            ? 1
-                            : 0.8 -
-                              Math.abs(member.offset) *
-                                (getIsMobile() ? 0.08 : 0.05),
-                          x:
-                            member.offset *
-                            (member.isActive ? 0 : getIsMobile() ? 45 : 40),
-                          opacity: member.isActive
-                            ? 1
-                            : 1 -
-                              Math.abs(member.offset) *
-                                (getIsMobile() ? 0.3 : 0.15),
-                          rotate:
-                            direction !== 0
-                              ? direction * member.offset * -2
-                              : 0,
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 350,
-                          damping: 25,
-                        }}
-                        whileHover={{
-                          scale: member.isActive ? 1.05 : 0.85,
-                          zIndex: 25,
-                          cursor: "pointer",
-                        }}
-                        onClick={() =>
-                          member.isActive
-                            ? openMemberModal(member)
-                            : handleSelectMember(
-                                (activeIndex + member.offset + members.length) %
-                                  members.length
-                              )
-                        }
-                      >
-                        <div
-                          className={`relative ${
-                            member.isActive
-                              ? "w-64 h-80 sm:w-48 sm:h-64 md:w-60 md:h-76"
-                              : "w-32 h-44 sm:w-36 sm:h-48 md:w-44 md:h-60"
-                          } rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
-                            member.isActive &&
-                            member.role &&
-                            (member.role === "Designer" ||
-                              member.role === "Programmer" ||
-                              member.role === "DevOps")
-                              ? "p-[2px] sm:p-[2px] md:p-[3px]"
-                              : member.isActive
-                              ? "border-0"
-                              : "border-2 border-[#14111f]"
-                          }`}
-                        >
-                          {member.isActive &&
-                            member.role &&
-                            (member.role === "Designer" ||
-                              member.role === "Programmer" ||
-                              member.role === "DevOps") && (
-                              <div
-                                className={`absolute inset-0 rounded-2xl z-0 ${
-                                  member.role === "Designer"
-                                    ? "bg-gradient-to-br from-purple-500 via-pink-500 to-rose-500"
-                                    : member.role === "Programmer"
-                                    ? "bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500"
-                                    : "bg-gradient-to-br from-amber-500 via-orange-500 to-red-500"
-                                } opacity-90 animate-gradient-xy`}
-                              ></div>
-                            )}
+                <ChevronLeft size={20} className="sm:hidden" />
+                <ChevronLeft size={20} className="hidden sm:block md:hidden" />
+                <ChevronLeft size={28} className="hidden md:block" />
+              </motion.button>
 
+              <motion.button
+                onClick={handleNext}
+                className="absolute cursor-pointer right-2 sm:right-2 md:right-10 top-1/2 -translate-y-1/2 z-50 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-full p-3 sm:p-2 md:p-3 text-white hover:text-[#00c7fe] transition-all transform hover:translate-x-1 active:scale-95 focus:outline-none border-2 border-[#00c7fe]/30 hover:border-[#00c7fe]"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0.7 }}
+                animate={{ opacity: 1 }}
+              >
+                <ChevronRight size={20} className="sm:hidden" />
+                <ChevronRight size={20} className="hidden sm:block md:hidden" />
+                <ChevronRight size={28} className="hidden md:block" />
+              </motion.button>
+
+              <div className="flex justify-center items-center min-h-[360px] sm:min-h-[320px] md:min-h-[400px] perspective">
+                <motion.div
+                  ref={carouselRef}
+                  className="flex justify-center items-center"
+                  animate={{ x: direction * -20 }}
+                  transition={{ duration: 0.1 }}
+                  onAnimationComplete={() => setDirection(0)}
+                >
+                  <AnimatePresence mode="wait">
+                    <div
+                      key={activeIndex}
+                      className="flex gap-0.5 justify-center items-center"
+                    >
+                      {getDisplayedItems().map((member, i) => (
+                        <motion.div
+                          key={`${member.id}-${i}`}
+                          className={`flex flex-col items-center justify-center relative ${
+                            member.isActive ? "z-20" : "z-10"
+                          }`}
+                          initial={{
+                            x: direction * 80,
+                            opacity: 0.5,
+                            scale: 0.8,
+                          }}
+                          animate={{
+                            scale: member.isActive
+                              ? 1
+                              : 0.8 -
+                                Math.abs(member.offset) *
+                                  (getIsMobile() ? 0.08 : 0.05),
+                            x:
+                              member.offset *
+                              (member.isActive ? 0 : getIsMobile() ? 45 : 40),
+                            opacity: member.isActive
+                              ? 1
+                              : 1 -
+                                Math.abs(member.offset) *
+                                  (getIsMobile() ? 0.3 : 0.15),
+                            rotate:
+                              direction !== 0
+                                ? direction * member.offset * -2
+                                : 0,
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 350,
+                            damping: 25,
+                          }}
+                          whileHover={{
+                            scale: member.isActive ? 1.05 : 0.85,
+                            zIndex: 25,
+                            cursor: "pointer",
+                          }}
+                          onClick={() =>
+                            member.isActive
+                              ? openMemberModal(member)
+                              : handleSelectMember(
+                                  (activeIndex +
+                                    member.offset +
+                                    members.length) %
+                                    members.length
+                                )
+                          }
+                        >
                           <div
-                            className={`relative w-full h-full bg-gradient-to-b 
+                            className={`relative ${
+                              member.isActive
+                                ? "w-64 h-80 sm:w-48 sm:h-64 md:w-60 md:h-76"
+                                : "w-32 h-44 sm:w-36 sm:h-48 md:w-44 md:h-60"
+                            } rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
+                              member.isActive &&
+                              member.role &&
+                              (member.role === "Designer" ||
+                                member.role === "Programmer" ||
+                                member.role === "DevOps")
+                                ? "p-[2px] sm:p-[2px] md:p-[3px]"
+                                : member.isActive
+                                ? "border-0"
+                                : "border-2 border-[#14111f]"
+                            }`}
+                          >
+                            {member.isActive &&
+                              member.role &&
+                              (member.role === "Designer" ||
+                                member.role === "Programmer" ||
+                                member.role === "DevOps") && (
+                                <div
+                                  className={`absolute inset-0 rounded-2xl z-0 ${
+                                    member.role === "Designer"
+                                      ? "bg-gradient-to-br from-purple-500 via-pink-500 to-rose-500"
+                                      : member.role === "Programmer"
+                                      ? "bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500"
+                                      : "bg-gradient-to-br from-amber-500 via-orange-500 to-red-500"
+                                  } opacity-90 animate-gradient-xy`}
+                                ></div>
+                              )}
+
+                            <div
+                              className={`relative w-full h-full bg-gradient-to-b 
     ${
       member.isActive
         ? "from-[#00c7fe]/20 via-[#0c0e21] to-[#00c7fe]/10"
         : "from-[#14111f] to-[#06050d]"
     } 
     rounded-xl z-10 overflow-hidden`}
-                          >
-                            <div className="w-full h-full flex items-center justify-center p-2">
-                              <div
-                                className={`relative w-full h-full ${
-                                  member.isActive ? "scale-110" : "scale-100"
-                                } transition-transform duration-300`}
-                              >
-                                {member.isActive && (
-                                  <motion.div
-                                    className="absolute top-2 left-2 bg-[#00c7fe]/90 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm z-30 shadow-[0_0_10px_rgba(0,199,254,0.5)] font-poppins"
-                                    initial={{ scale: 0, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    transition={{
-                                      delay: 0.2,
-                                      type: "spring",
-                                      stiffness: 400,
-                                    }}
-                                  >
-                                    {member.number}
-                                  </motion.div>
-                                )}
-
+                            >
+                              <div className="w-full h-full flex items-center justify-center p-2">
                                 <div
                                   className={`relative w-full h-full ${
-                                    member.isActive
-                                      ? "drop-shadow-[0_0_8px_rgba(0,199,254,0.5)]"
-                                      : ""
-                                  }`}
+                                    member.isActive ? "scale-110" : "scale-100"
+                                  } transition-transform duration-300`}
                                 >
+                                  {member.isActive && (
+                                    <motion.div
+                                      className="absolute top-2 left-2 bg-[#00c7fe]/90 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm z-30 shadow-[0_0_10px_rgba(0,199,254,0.5)] font-poppins"
+                                      initial={{ scale: 0, opacity: 0 }}
+                                      animate={{ scale: 1, opacity: 1 }}
+                                      transition={{
+                                        delay: 0.2,
+                                        type: "spring",
+                                        stiffness: 400,
+                                      }}
+                                    >
+                                      {member.number}
+                                    </motion.div>
+                                  )}
+
                                   <div
-                                    className={`w-full h-full bg-center bg-cover rounded-xl transition-all duration-500 ${
+                                    className={`relative w-full h-full ${
                                       member.isActive
-                                        ? "filter-none"
-                                        : "filter brightness-75"
+                                        ? "drop-shadow-[0_0_8px_rgba(0,199,254,0.5)]"
+                                        : ""
                                     }`}
-                                    style={{
-                                      backgroundImage: `url(${member.image})`,
-                                    }}
-                                  />
+                                  >
+                                    <div
+                                      className={`w-full h-full bg-center bg-cover rounded-xl transition-all duration-500 ${
+                                        member.isActive
+                                          ? "filter-none"
+                                          : "filter brightness-75"
+                                      }`}
+                                      style={{
+                                        backgroundImage: `url(${member.image})`,
+                                      }}
+                                    />
+                                  </div>
                                 </div>
                               </div>
-                            </div>
 
-                            <AnimatePresence>
-                              {member.isActive && (
-                                <motion.div
-                                  className="absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-sm p-2 sm:p-3 md:p-4 rounded-b-xl"
-                                  initial={{ y: 20, opacity: 0 }}
-                                  animate={{ y: 0, opacity: 1 }}
-                                  exit={{ y: 20, opacity: 0 }}
-                                  transition={{
-                                    type: "spring",
-                                    stiffness: 300,
-                                  }}
-                                >
-                                  <h3 className="text-white font-bold text-base sm:text-lg truncate font-poppins">
-                                    {member.name}
-                                  </h3>
-                                  {member.role && (
-                                    <p
-                                      className={`text-xs sm:text-sm truncate font-poppins ${
-                                        member.role === "Designer"
-                                          ? "text-pink-400"
-                                          : member.role === "Programmer"
-                                          ? "text-cyan-400"
-                                          : member.role === "DevOps"
-                                          ? "text-orange-400"
-                                          : "text-[#00c7fe]"
-                                      }`}
-                                    >
-                                      {member.role}
-                                    </p>
-                                  )}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-
-                            <AnimatePresence>
-                              {member.isActive &&
-                                member.role &&
-                                !(
-                                  member.role === "Designer" ||
-                                  member.role === "Programmer" ||
-                                  member.role === "DevOps"
-                                ) && (
+                              <AnimatePresence>
+                                {member.isActive && (
                                   <motion.div
-                                    className="absolute inset-0 rounded-xl border border-[#00c7fe] pointer-events-none"
-                                    initial={{ opacity: 0 }}
-                                    animate={{
-                                      opacity: [0.4, 0.6, 0.8, 1],
-                                      boxShadow: [
-                                        "0 0 5px rgba(0,199,254,0.3)",
-                                        "0 0 10px rgba(0,199,254,0.3)",
-                                        "0 0 15px rgba(0,199,254,0.3)",
-                                        "0 0 20px rgba(0,199,254,0.3)",
-                                      ],
-                                    }}
+                                    className="absolute bottom-0 left-0 w-full bg-black/60 backdrop-blur-sm p-2 sm:p-3 md:p-4 rounded-b-xl"
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    exit={{ y: 20, opacity: 0 }}
                                     transition={{
-                                      duration: 1,
-                                      repeat: Infinity,
-                                      repeatType: "reverse",
+                                      type: "spring",
+                                      stiffness: 300,
                                     }}
-                                  />
+                                  >
+                                    <h3 className="text-white font-bold text-base sm:text-lg truncate font-poppins">
+                                      {member.name}
+                                    </h3>
+                                    {member.role && (
+                                      <p
+                                        className={`text-xs sm:text-sm truncate font-poppins ${
+                                          member.role === "Designer"
+                                            ? "text-pink-400"
+                                            : member.role === "Programmer"
+                                            ? "text-cyan-400"
+                                            : member.role === "DevOps"
+                                            ? "text-orange-400"
+                                            : "text-[#00c7fe]"
+                                        }`}
+                                      >
+                                        {member.role}
+                                      </p>
+                                    )}
+                                  </motion.div>
                                 )}
-                            </AnimatePresence>
+                              </AnimatePresence>
+
+                              <AnimatePresence>
+                                {member.isActive &&
+                                  member.role &&
+                                  !(
+                                    member.role === "Designer" ||
+                                    member.role === "Programmer" ||
+                                    member.role === "DevOps"
+                                  ) && (
+                                    <motion.div
+                                      className="absolute inset-0 rounded-xl border border-[#00c7fe] pointer-events-none"
+                                      initial={{ opacity: 0 }}
+                                      animate={{
+                                        opacity: [0.4, 0.6, 0.8, 1],
+                                        boxShadow: [
+                                          "0 0 5px rgba(0,199,254,0.3)",
+                                          "0 0 10px rgba(0,199,254,0.3)",
+                                          "0 0 15px rgba(0,199,254,0.3)",
+                                          "0 0 20px rgba(0,199,254,0.3)",
+                                        ],
+                                      }}
+                                      transition={{
+                                        duration: 1,
+                                        repeat: Infinity,
+                                        repeatType: "reverse",
+                                      }}
+                                    />
+                                  )}
+                              </AnimatePresence>
+                            </div>
                           </div>
-                        </div>
-                      </motion.div>
-                    ))}
+                        </motion.div>
+                      ))}
+                    </div>
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+
+              <div
+                className="absolute -bottom-6 sm:-bottom-1 left-0 right-0 mx-auto w-fit backdrop-blur-md px-4 sm:px-4 md:px-6 py-3 sm:py-2 md:py-3 rounded-lg overflow-hidden"
+                style={{ maxWidth: "90%", margin: "0 auto" }}
+              >
+                <div className="flex items-center gap-1 sm:gap-0.5 justify-center">
+                  {getIsMobile() && (
+                    <p className="text-white text-xs font-medium mr-2">
+                      {activeIndex + 1} / {members.length}
+                    </p>
+                  )}
+
+                  {start > 0 && (
+                    <button
+                      className="text-white/70 hover:text-[#00c7fe] transition-colors px-1 sm:px-0.5"
+                      onClick={() => handleSelectMember(Math.max(0, start - 3))}
+                    >
+                      <ChevronLeft size={16} className="sm:hidden" />
+                      <ChevronLeft size={14} className="hidden sm:block" />
+                    </button>
+                  )}
+
+                  <div
+                    className={`flex items-center gap-1 px-1 sm:px-2 ${
+                      getIsMobile() ? "hidden" : "flex"
+                    }`}
+                  >
+                    {members.slice(start, end + 1).map((_, sliceIndex) => {
+                      const index = start + sliceIndex;
+                      const isActive = index === activeIndex;
+                      const isNearActive = Math.abs(index - activeIndex) <= 1;
+
+                      return (
+                        <motion.button
+                          key={index}
+                          onClick={() => handleSelectMember(index)}
+                          className="group flex items-center justify-center h-6 sm:h-7 px-0.5"
+                          whileHover={{ scale: 1.2 }}
+                          whileTap={{ scale: 0.95 }}
+                          aria-label={`Select member ${index + 1}`}
+                        >
+                          <motion.div
+                            className={`h-[2px] sm:h-[3px] rounded-full transition-all ${
+                              isActive
+                                ? "bg-[#00c7fe] shadow-[0_0_5px_rgba(0,199,254,0.6)]"
+                                : isNearActive
+                                ? "bg-white/70 group-hover:bg-white"
+                                : "bg-white/40 group-hover:bg-white/60"
+                            }`}
+                            initial={{ width: isActive ? 16 : 8 }}
+                            animate={{
+                              width: isActive ? 24 : 12,
+                              opacity: isActive ? 1 : isNearActive ? 0.7 : 0.4,
+                            }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 300,
+                              damping: 25,
+                            }}
+                          />
+                        </motion.button>
+                      );
+                    })}
                   </div>
-                </AnimatePresence>
-              </motion.div>
-            </div>
 
-            <div
-              className="absolute -bottom-6 sm:-bottom-1 left-0 right-0 mx-auto w-fit backdrop-blur-md px-4 sm:px-4 md:px-6 py-3 sm:py-2 md:py-3 rounded-lg overflow-hidden"
-              style={{ maxWidth: "90%", margin: "0 auto" }}
-            >
-              <div className="flex items-center gap-1 sm:gap-0.5 justify-center">
-                {getIsMobile() && (
-                  <p className="text-white text-xs font-medium mr-2">
-                    {activeIndex + 1} / {members.length}
-                  </p>
-                )}
-
-                {start > 0 && (
-                  <button
-                    className="text-white/70 hover:text-[#00c7fe] transition-colors px-1 sm:px-0.5"
-                    onClick={() => handleSelectMember(Math.max(0, start - 3))}
-                  >
-                    <ChevronLeft size={16} className="sm:hidden" />
-                    <ChevronLeft size={14} className="hidden sm:block" />
-                  </button>
-                )}
-
-                <div
-                  className={`flex items-center gap-1 px-1 sm:px-2 ${
-                    getIsMobile() ? "hidden" : "flex"
-                  }`}
-                >
-                  {members.slice(start, end + 1).map((_, sliceIndex) => {
-                    const index = start + sliceIndex;
-                    const isActive = index === activeIndex;
-                    const isNearActive = Math.abs(index - activeIndex) <= 1;
-
-                    return (
-                      <motion.button
-                        key={index}
-                        onClick={() => handleSelectMember(index)}
-                        className="group flex items-center justify-center h-6 sm:h-7 px-0.5"
-                        whileHover={{ scale: 1.2 }}
-                        whileTap={{ scale: 0.95 }}
-                        aria-label={`Select member ${index + 1}`}
-                      >
-                        <motion.div
-                          className={`h-[2px] sm:h-[3px] rounded-full transition-all ${
-                            isActive
-                              ? "bg-[#00c7fe] shadow-[0_0_5px_rgba(0,199,254,0.6)]"
-                              : isNearActive
-                              ? "bg-white/70 group-hover:bg-white"
-                              : "bg-white/40 group-hover:bg-white/60"
-                          }`}
-                          initial={{ width: isActive ? 16 : 8 }}
-                          animate={{
-                            width: isActive ? 24 : 12,
-                            opacity: isActive ? 1 : isNearActive ? 0.7 : 0.4,
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 300,
-                            damping: 25,
-                          }}
-                        />
-                      </motion.button>
-                    );
-                  })}
+                  {end < members.length - 1 && (
+                    <button
+                      className="text-white/70 hover:text-[#00c7fe] transition-colors px-1 sm:px-0.5"
+                      onClick={() =>
+                        handleSelectMember(
+                          Math.min(members.length - 1, end + 3)
+                        )
+                      }
+                    >
+                      <ChevronRight size={16} className="sm:hidden" />
+                      <ChevronRight size={14} className="hidden sm:block" />
+                    </button>
+                  )}
                 </div>
-
-                {end < members.length - 1 && (
-                  <button
-                    className="text-white/70 hover:text-[#00c7fe] transition-colors px-1 sm:px-0.5"
-                    onClick={() =>
-                      handleSelectMember(Math.min(members.length - 1, end + 3))
-                    }
-                  >
-                    <ChevronRight size={16} className="sm:hidden" />
-                    <ChevronRight size={14} className="hidden sm:block" />
-                  </button>
-                )}
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="min-h-[360px] sm:min-h-[320px] md:min-h-[400px] flex items-center justify-center">
+              <div className="animate-pulse flex flex-col items-center">
+                <div className="w-64 h-80 bg-gray-700/20 rounded-2xl"></div>
+                <div className="mt-4 h-2 w-24 bg-gray-700/20 rounded"></div>
+              </div>
+            </div>
+          )}
         </div>
 
-        <MemberModal
-          member={selectedMember}
-          isOpen={isModalOpen}
-          onClose={closeMemberModal}
-        />
+        {isMounted && (
+          <MemberModal
+            member={selectedMember}
+            isOpen={isModalOpen}
+            onClose={closeMemberModal}
+          />
+        )}
       </div>
     </div>
   );
