@@ -87,8 +87,17 @@ public/
 - **Games** (`/games`) - Fun games created by team members
 - **Links** (`/links`) - Collection of helpful resources
 - **Toolkit** (`/toolkit`) - Essential tools and resources for development
+- **Blog** (`/blog`) - Articles and updates from team members
+- **Projects** (`/projects`) - Showcase of projects created by the class
 
 ## 📌 Version History
+
+### v0.1.5
+
+- Add Instagram link to member modal and update member data
+- Fix issues in all members section
+- Add blog and projects pages with navigation and placeholder content
+- Add project showcase section with dynamic project cards and navigation link
 
 ### v0.1.4
 
